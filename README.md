@@ -1,5 +1,9 @@
 # basic-blockchain-app
 
+**Update**
+Works with hyperledger/fabric commit 118f82f04a8f3227480904ea6b7c3ed961c0d8c1.
+Works with hyperledger/fabric-ca commit 855036cc931b20c0019f9f67e4b7f8acb9ec868d.
+
 Blockchain application developed on Hyperledger Fabric using the Fabric-Node-SDK. Simple modifications to the end to end example provided to exercise the entire functionality of SDK.
 
 Instructions to run:
