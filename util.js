@@ -27,6 +27,10 @@ var User = require('fabric-client/lib/User.js');
 var CryptoSuite = require('fabric-client/lib/impl/CryptoSuite_ECDSA_AES.js');
 var KeyStore = require('fabric-client/lib/impl/CryptoKeyStore.js');
 var ecdsaKey = require('fabric-client/lib/impl/ecdsa/key.js');
+var LocalMSP = require('fabric-client/lib/msp/msp.js');
+var idModule = require('fabric-client/lib/msp/identity.js');
+var SigningIdentity = idModule.SigningIdentity;
+var Signer = idModule.Signer;
 
 module.exports.CHAINCODE_PATH = 'github.com/example_cc';
 module.exports.CHAINCODE_UPGRADE_PATH = 'github.com/example_cc1';
@@ -34,7 +38,7 @@ module.exports.CHAINCODE_MARBLES_PATH = 'github.com/marbles_cc';
 module.exports.END2END = {
 	channel: 'mychannel',
 	chaincodeId: 'purchaseorder',
-	chaincodeVersion: 'v2'
+	chaincodeVersion: 'v3'
 };
 
 // directory for file based KeyValueStore
@@ -92,6 +96,76 @@ var	tlsOptions = {
 	trustedRoots: [],
 	verify: false
 };
+
+function getRegistrar(username, client, t, loadFromConfig, userOrg) {
+	var caUrl = ORGS[userOrg].ca;
+	var cop = new copService(caUrl, tlsOptions);
+	var req = {
+		enrollmentID: 'admin',
+		enrollmentSecret: 'adminpw'
+	};
+	var eResult, client, member, webAdmin;
+	return cop.enroll(req)
+	.then((enrollment) => {
+	t.pass('Successfully enrolled \'' + req.enrollmentID + '\'.');
+	eResult = enrollment;
+
+	//check that we got back the expected certificate
+	//var cert = new X509();
+	//cert.readCertPEM(enrollment.certificate);
+	//t.comment(cert.getSubjectString());
+	return cop.cryptoPrimitives.importKey(enrollment.certificate);
+},(err) => {
+	t.fail('Failed to enroll the admin. Can not progress any further. Exiting. ' + err.stack ? err.stack : err);
+
+	t.end();
+}).then((pubKey) => {
+	t.pass('Successfully imported public key from the resulting enrollment certificate');
+	var msp = new LocalMSP({
+		id: ORGS[userOrg].mspid,
+		cryptoSuite: cop.cryptoPrimitives
+	});
+
+	var signingIdentity = new SigningIdentity('testSigningIdentity', eResult.certificate, pubKey, msp, new Signer(msp.cryptoSuite, eResult.key));
+	t.comment('Registering '+username);
+	return cop._fabricCAClient.register(username, 'peer', userOrg, 1, [], signingIdentity);
+},(err) => {
+	t.fail('Failed to import the public key from the enrollment certificate. ' + err.stack ? err.stack : err);
+	t.end();
+}).then((secret) => {
+	console.log('secret: ' + JSON.stringify(secret));
+	t.comment(secret);
+	newsecret = secret; // to be used in the next test case
+
+	t.pass('testUser \'' + username + '\'');
+	}).then(() => {
+
+		return cop.enroll({
+			enrollmentID: username,
+			//enrollmentSecret: password
+			enrollmentSecret: newsecret
+		}).then((enrollment) => {
+			t.pass('Successfully enrolled user \'' + username + '\'');
+
+			member = new User(username);
+			return member.setEnrollment(enrollment.key, enrollment.certificate, ORGS[userOrg].mspid);
+		}).then(() => {
+			return client.setUserContext(member);
+		}).then(() => {
+			return Promise.resolve(member);
+		}).catch((err) => {
+			t.fail('Failed to enroll and persist user. Error: ' + err.stack ? err.stack : err);
+			t.end();
+		});
+	}).catch((err) => {
+		t.fail('Failed to register user. Error: ' + err.stack ? err.stack : err);
+		t.end();
+	});
+
+}
+
+module.exports.getRegistrar = getRegistrar;
+
 
 function getSubmitter(username, password, client, t, loadFromConfig, userOrg) {
 	var caUrl = ORGS[userOrg].ca;

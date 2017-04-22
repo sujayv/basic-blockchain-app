@@ -24,7 +24,7 @@ var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
 
 test('\n\n***** End-to-end flow: query chaincode *****', (t) => {
-	e2eUtils.queryChaincode('org1', 'v2', '300', t)
+	e2eUtils.queryChaincode('org1', 'v3', '300', t, ['queryPOIds','PO156897'])
 	.then((result) => {
 		if(result){
 			t.pass('Successfully query chaincode on the channel');

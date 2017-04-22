@@ -19,7 +19,7 @@
 'use strict';
 
 var utils = require('fabric-client/lib/utils.js');
-utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
+//utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
 var logger = utils.getLogger('E2E install-chaincode');
 
 var tape = require('tape');
@@ -32,10 +32,10 @@ var testUtil = require('./util.js');
 //testUtil.setupChaincodeDeploy();
 
 test('\n\n***** End-to-end flow: chaincode install *****\n\n', (t) => {
-	e2eUtils.installChaincode('org1', testUtil.CHAINCODE_PATH, 'v2', t)
+	e2eUtils.installChaincode('org1', testUtil.CHAINCODE_PATH, 'v3', t)
 	.then(() => {
 		t.pass('Successfully installed chaincode in peers of organization "org1"');
-		return e2eUtils.installChaincode('org2', testUtil.CHAINCODE_PATH, 'v2', t);
+		return e2eUtils.installChaincode('org2', testUtil.CHAINCODE_PATH, 'v3', t);
 	}, (err) => {
 		t.fail('Failed to install chaincode in peers of organization "org1". ' + err.stack ? err.stack : err);
 		t.end();

@@ -18,7 +18,7 @@
 // in a happy-path scenario
 'use strict';
 var utils = require('fabric-client/lib/utils.js');
-utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
+//utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
 var logger = utils.getLogger('E2E testing');
 
 var tape = require('tape');
@@ -158,7 +158,7 @@ function instantiateChaincode(org, chaincode_path, version, upgrade, t){
 			f.apply(context, arguments);
 		};
 	})(t, eventhubs, t.end);
-	
+
 	var client = new hfc();
 	var chain = client.newChain(e2e.channel);
 
@@ -376,7 +376,7 @@ function instantiateChaincode(org, chaincode_path, version, upgrade, t){
 module.exports.instantiateChaincode = instantiateChaincode;
 
 
-function invokeChaincode(org, version, t){
+function invokeChaincode(org, version, t, args){
 	var targets = [],
 		eventhubs = [];
 
@@ -472,7 +472,7 @@ function invokeChaincode(org, version, t){
 			chaincodeId : e2e.chaincodeId,
 			chaincodeVersion : version,
 			fcn: 'invoke',
-			args: ['updateStatus', '156897', 'Delivered'],
+			args: args,
 			chainId: e2e.channel,
 			txId: tx_id,
 			nonce: nonce
@@ -599,7 +599,7 @@ function invokeChaincode(org, version, t){
 
 module.exports.invokeChaincode = invokeChaincode;
 
-function queryChaincode(org, version, value, t){
+function queryChaincode(org, version, value, t, args){
 	// this is a transaction, will just use org's identity to
 	// submit the request. intentionally we are using a different org
 	// than the one that submitted the "move" transaction, although either org
@@ -637,13 +637,34 @@ function queryChaincode(org, version, value, t){
 
 		nonce = utils.getNonce();
 		tx_id = hfc.buildTransactionID(nonce, the_user);
-		
+
 
 		chain.queryInfo().then((result) => {
-		
-			logger.info(result.height);
+
+			logger.info("Current height of block chain is: "+result.height);
+			chain.queryBlock(parseInt(result.height)-1).then((block) => {
+
+				logger.info(block);
+				logger.info("Block Number: "+block.header.number.toString());
+				logger.info("Previous Block Hash: "+block.header.previous_hash.toString('hex'));
+				logger.info("Current Block Data Hash: "+block.header.data_hash.toString('hex'));
+				logger.info("Block Created by: "+block.data.data[0].payload.data.actions[0].header.creator.Mspid.toString());
+				logger.info("Creator's sign cert: "+block.data.data[0].payload.data.actions[0].header.creator.IdBytes.toString());
+				//logger.info("Response: "+block.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.response);
+			});
 
 		});
+
+		/*chain.queryTransaction('f159efa1fb9444030e8a46581c1ad25efad50d46efb0e356d38cf654062123c5').then((result) => {
+
+			logger.info(result.transactionEnvelope.payload.toString());
+			var StringDecoder = require('string_decoder').StringDecoder;
+			var decoder = new StringDecoder('utf8');
+			var textChunk = decoder.write(result.transactionEnvelope.payload);
+			logger.info(textChunk);
+
+		});*/
+
 
 		// send query
 		var request = {
@@ -653,7 +674,7 @@ function queryChaincode(org, version, value, t){
 			txId: tx_id,
 			nonce: nonce,
 			fcn: 'invoke',
-			args: ['queryPO','156897']
+			args: args
 		};
 		return chain.queryByChaincode(request);
 	},
@@ -665,7 +686,7 @@ function queryChaincode(org, version, value, t){
 		if (response_payloads) {
 			/*for(let i = 0; i < response_payloads.length; i++) {
 				t.equal(response_payloads[i].toString('utf8'),value,'checking query results are correct that user b has '+ value + ' now after the move');
-				
+
 			}*/
 			t.pass('The response is '+ response_payloads[0].toString('utf8') + '\n');
 			return true;
@@ -681,3 +702,115 @@ function queryChaincode(org, version, value, t){
 };
 
 module.exports.queryChaincode = queryChaincode;
+
+
+
+
+
+function queryChaincodeAndExecuteTask(org, version, value, t){
+	// this is a transaction, will just use org's identity to
+	// submit the request. intentionally we are using a different org
+	// than the one that submitted the "move" transaction, although either org
+	// should work properly
+	var client = new hfc();
+	var chain = client.newChain(e2e.channel);
+
+	var orgName = ORGS[org].name;
+
+	var targets = [];
+	// set up the chain to use each org's 'peer1' for
+	// both requests and events
+	for (let key in ORGS) {
+		if (ORGS.hasOwnProperty(key) && typeof ORGS[key].peer1 !== 'undefined') {
+			let data = fs.readFileSync(path.join(__dirname, ORGS[key].peer1['tls_cacerts']));
+			let peer = client.newPeer(
+				ORGS[key].peer1.requests,
+				{
+					pem: Buffer.from(data).toString(),
+					'ssl-target-name-override': ORGS[key].peer1['server-hostname']
+				});
+			chain.addPeer(peer);
+		}
+	}
+
+	return hfc.newDefaultKeyValueStore({
+		path: testUtil.storePathForOrg(orgName)
+	}).then((store) => {
+
+		client.setStateStore(store);
+		return testUtil.getSubmitter(client, t, org);
+
+	}).then((admin) => {
+		the_user = admin;
+
+		nonce = utils.getNonce();
+		tx_id = hfc.buildTransactionID(nonce, the_user);
+
+
+		chain.queryInfo().then((result) => {
+
+			logger.info(result.height);
+
+		});
+
+		// send query
+		var request = {
+			chaincodeId : e2e.chaincodeId,
+			chaincodeVersion : version,
+			chainId: e2e.channel,
+			txId: tx_id,
+			nonce: nonce,
+			fcn: 'invoke',
+			args: ['queryPO','PO156897']
+		};
+		return chain.queryByChaincode(request);
+	},
+	(err) => {
+		t.comment('Failed to get submitter \'admin\'');
+		t.fail('Failed to get submitter \'admin\'. Error: ' + err.stack ? err.stack : err );
+		throw new Error('Failed to get submitter');
+	}).then((response_payloads) => {
+		if (response_payloads) {
+			/*for(let i = 0; i < response_payloads.length; i++) {
+				t.equal(response_payloads[i].toString('utf8'),value,'checking query results are correct that user b has '+ value + ' now after the move');
+
+			}*/
+			t.pass('The response is '+ response_payloads[0].toString('utf8') + '\n');
+			var PO = JSON.parse(response_payloads[0].toString('utf8'));
+			logger.info("Status:"+PO.Status.toString());
+			/*var exec = require('child_process').exec;
+    	var child;
+
+			child = exec('node timepass.js',
+			  	function (error, stdout, stderr) {
+			    console.log('stdout: ' + stdout);
+			    console.log('stderr: ' + stderr);
+			    if (error !== null) {
+			      console.log('exec error: ' + error);
+			    }
+			});*/
+
+			const spawn = require('child_process').spawn;
+			spawn('node', ['timepass.js'], {
+				//stdio: [ 'ignore', out, err ],
+				stdio: 'inherit',
+	    	detached: true
+		}).unref();
+
+
+
+
+
+			return true;
+		} else {
+			t.fail('response_payloads is null');
+			throw new Error('Failed to get response on query');
+		}
+	},
+	(err) => {
+		t.fail('Failed to send query due to error: ' + err.stack ? err.stack : err);
+		throw new Error('Failed, got error on query');
+	});
+};
+
+module.exports.queryChaincodeAndExecuteTask = queryChaincodeAndExecuteTask;

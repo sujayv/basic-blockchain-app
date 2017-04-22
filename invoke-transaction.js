@@ -24,7 +24,7 @@ var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
 
 test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) => {
-	e2eUtils.invokeChaincode('org2', 'v2', t)
+	e2eUtils.invokeChaincode('org1', 'v3', t, ['create','PO156900'])
 	.then((result) => {
 		if(result){
 			t.pass('Successfully invoke transaction chaincode on channel');
@@ -42,4 +42,3 @@ test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) =>
 		t.end();
 	});
 });
-

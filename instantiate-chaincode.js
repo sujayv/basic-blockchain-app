@@ -19,7 +19,7 @@
 'use strict';
 
 var utils = require('fabric-client/lib/utils.js');
-utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
+//utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
 var logger = utils.getLogger('E2E instantiate-chaincode');
 
 var tape = require('tape');
@@ -30,7 +30,7 @@ var e2eUtils = require('./e2eUtils.js');
 var testUtil = require('./util.js');
 
 test('\n\n***** End-to-end flow: instantiate chaincode *****', (t) => {
-	e2eUtils.instantiateChaincode('org1', testUtil.CHAINCODE_PATH, 'v2', false, t)
+	e2eUtils.instantiateChaincode('org1', testUtil.CHAINCODE_PATH, 'v3', false, t)
 	.then((result) => {
 		if(result){
 			t.pass('Successfully instantiated chaincode on the channel');
