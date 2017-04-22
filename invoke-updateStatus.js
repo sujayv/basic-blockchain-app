@@ -23,19 +23,25 @@ var _test = require('tape-promise');
 var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
 
-test('\n\n***** End-to-end flow: query chaincode *****', (t) => {
-	e2eUtils.queryChaincode('org1', 'v3', '300', t, ['queryPO','PO156897'])
+test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) => {
+	e2eUtils.invokeChaincode('org2', 'v3', t, ['updateStatus','PO156897', 'Delivered'])
 	.then((result) => {
 		if(result){
-			t.pass('Successfully query chaincode on the channel');
+			t.pass('Successfully invoke transaction chaincode on channel');
+			const spawn = require('child_process').spawn;
+			spawn('node', ['query.js'], {
+			  //stdio: [ 'ignore', out, err ],
+			  stdio: 'inherit',
+			  detached: true
+			}).unref();
 			t.end();
 		}
 		else {
-			t.fail('Failed to query chaincode ');
+			t.fail('Failed to invoke transaction chaincode ');
 			t.end();
 		}
 	}, (err) => {
-		t.fail('Failed to query chaincode on the channel. ' + err.stack ? err.stack : err);
+		t.fail('Failed to invoke transaction chaincode on channel. ' + err.stack ? err.stack : err);
 		t.end();
 	}).catch((err) => {
 		t.fail('Test failed due to unexpected reasons. ' + err.stack ? err.stack : err);

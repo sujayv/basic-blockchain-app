@@ -689,6 +689,7 @@ function queryChaincode(org, version, value, t, args){
 
 			}*/
 			t.pass('The response is '+ response_payloads[0].toString('utf8') + '\n');
+			logger.info("The query response is "+ response_payloads[0].toString('utf8') + '\n');
 			return true;
 		} else {
 			t.fail('response_payloads is null');
@@ -789,17 +790,14 @@ function queryChaincodeAndExecuteTask(org, version, value, t){
 			      console.log('exec error: ' + error);
 			    }
 			});*/
-
-			const spawn = require('child_process').spawn;
-			spawn('node', ['timepass.js'], {
-				//stdio: [ 'ignore', out, err ],
-				stdio: 'inherit',
-	    	detached: true
-		}).unref();
-
-
-
-
+			if(PO.Status.toString() != "Delivered") {
+				const spawn = require('child_process').spawn;
+				spawn('node', ['bgexecute.js'], {
+					//stdio: [ 'ignore', out, err ],
+					stdio: 'inherit',
+					detached: true
+			}).unref();
+			}
 
 			return true;
 		} else {
