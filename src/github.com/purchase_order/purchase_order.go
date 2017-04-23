@@ -49,7 +49,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	if function != "invoke" {
                 return shim.Error("Unknown function call")
 	}
-	if args[0] == "delete" {
+	if args[0] == "deletePO" {
 		// Deletes a purchase order from its state
 		return t.delete(stub, args)
 	}

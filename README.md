@@ -32,18 +32,19 @@ Instructions to run:
 	h. node invoke-transaction.js
 
 	i. Go to parameters.json and modify the query-transaction parameters to any of the ones mentioned below.
-	
+
 	j. node query.js
 
 
 Invoke Transaction parameters:
-1. "create", "purchase_order_number" (Example : ['create','PO156897'])
-2. "delete", "purchase_order_number" (Example : ['delete','PO156897'])
+1. "createPO", "purchase_order_number" (Example : ['createPO','PO156897'])
+2. "deletePO", "purchase_order_number" (Example : ['delete','PO156897'])
 3. "updateStatus", "purchase_order_number", "status_update" (Example : ['updateStatus','PO156897','Delivered'])
 4. "updateQuantity", "purchase_order_number", "new_quantity" (Example : ['updateQuantity','PO156897','150'])
 5. "updateCustomer", "purchase_order_number", "customer_name" (Example : ['updateStatus','PO156897','Company XYZ'])
 6. "updateSupplier", "purchase_order_number", "supplier_name" (Example : ['updateStatus','PO156897','Company ABC'])
 7. "updatePartName", "purchase_order_number", "part_name" (Example : ['updateStatus','PO156897','Razor Gaming Keyboard'])
+8. "createCompletePO", "purchase_order_number", "quantity", "part_name", "customer", "supplier", "status" (Example : ['createCompletePO','PO156897','10','Razor Gaming Keyboard','Company ABC','Company XYZ','Order Created'])
 
 
 Query Transaction parameters:
