@@ -44,13 +44,14 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response  {
 
 func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 
-	fmt.Println("blockchain invoke method")
+	fmt.Println("blockchain invoke method###")
 	function, args := stub.GetFunctionAndParameters()
 	if function != "invoke" {
                 return shim.Error("Unknown function call")
 	}
+	fmt.Println("method is "+args[0])
 	if args[0] == "deletePO" {
-		// Deletes a purchase order from its state
+		// Deletes a purchase order from its statell
 		return t.delete(stub, args)
 	}
 	if args[0] == "queryPO" {
@@ -58,6 +59,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.queryPurchaseOrder(stub, args)
 	}
 	if args[0] == "queryPOIds" {
+		//Queries the list of POIds
+		return t.queryPurchaseOrderList(stub, args)
+	}
+	if args[0] == "queryAllPO" {
 		//Queries the list of POIds
 		return t.queryAllPurchaseOrders(stub, args)
 	}
@@ -411,9 +416,9 @@ func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string
 }
 
 //Query the entire list of purchase order ids
-func (t *SimpleChaincode) queryAllPurchaseOrders(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func (t *SimpleChaincode) queryPurchaseOrderList(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
-	fmt.Println("Inside the queryAllPurchaseOrders")
+	fmt.Println("Inside the queryPurchaseOrderList")
 	bytes, err := stub.GetState("PoIds")
 	if err != nil {
 		return shim.Error("Unable to get PoIds")
@@ -431,6 +436,43 @@ func (t *SimpleChaincode) queryAllPurchaseOrders(stub shim.ChaincodeStubInterfac
 	}
 	return shim.Success([]byte(temp))
 }
+
+func (t *SimpleChaincode) queryAllPurchaseOrders(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+
+	fmt.Println("Inside the queryAllPurchaseOrders")
+	bytes, err := stub.GetState("PoIds")
+	if err != nil {
+		return shim.Error("Unable to get PoIds")
+	}
+	var PoIds PoId_Holder
+	err = json.Unmarshal(bytes, &PoIds)
+	if err != nil {
+		return shim.Error("Corrupt PoId_Holder record")
+	}
+	temp_po := PoIds.Po
+	var temp string
+	temp = ""
+	for i:=0;i<len(temp_po);i++ {
+		bytes, err := stub.GetState(temp_po[i])
+		if err != nil {
+			return shim.Error("Unable to get the purchase order")
+		}
+		var po Purchase_Order
+		err = json.Unmarshal(bytes,&po)
+		if err != nil {
+			fmt.Println("The record is corrupt")
+			return shim.Error("Unable to unmarshal purchase order")
+		}
+		po_details,err := json.Marshal(po)
+		if err != nil {
+			return shim.Error("Unable to marshal the unmarshaled purchase order")
+		}
+		temp += string(po_details)
+		temp += "\n"
+	}
+	return shim.Success([]byte(temp))
+}
+
 
 //Query based on a purchase order ID
 func (t *SimpleChaincode) queryPurchaseOrder(stub shim.ChaincodeStubInterface, args []string) pb.Response {

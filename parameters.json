@@ -1,6 +1,6 @@
 {
-  "invoke_transaction" : ["delete","YU6345"],
-  "query_transaction" : ["queryPOIds","PO156890"],
+  "invoke_transaction" : ["deletePO","PC5134"],
+  "query_transaction" : ["queryAllPO"],
   "query_and_execute" : {
                         "args": ["queryPO","PO156879"],
                         "updateStatus": ["updateStatus","PO156879","Delivered"]
@@ -8,7 +8,7 @@
   "properties" : {
                   "channelName" : "mychannel",
                   "chaincodeId" : "purchaseorder",
-                  "chaincodeVersion" : "v1",
+                  "chaincodeVersion" : "v4",
                   "chaincodePath" : "github.com/purchase_order"
                 },
   "registerUser" : "sujay"

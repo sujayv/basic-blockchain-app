@@ -17,7 +17,7 @@ Instructions to run:
 
 	a. docker-compose up -d
 
-	b. export GOPATH=$PWD && npm install
+	b. export GOPATH=$PWD && npm install && npm install --save async && npm install system-sleep
 
 	c. node create-channel.js
 
@@ -36,6 +36,12 @@ Instructions to run:
 	j. node query.js
 
 
+**To initialize with default purchase orders:**
+1. node initialize-default.js
+2. Now querying with queryPOIds will return a list of PoIds that were just added.
+
+
+
 Invoke Transaction parameters:
 1. "createPO", "purchase_order_number" (Example : ['createPO','PO156897'])
 2. "deletePO", "purchase_order_number" (Example : ['delete','PO156897'])
@@ -46,9 +52,9 @@ Invoke Transaction parameters:
 7. "updatePartName", "purchase_order_number", "part_name" (Example : ['updateStatus','PO156897','Razor Gaming Keyboard'])
 8. "createCompletePO", "purchase_order_number", "quantity", "part_name", "customer", "supplier", "status" (Example : ['createCompletePO','PO156897','10','Razor Gaming Keyboard','Company ABC','Company XYZ','Order Created'])
 
-
 Query Transaction parameters:
 1. "queryPO", "purchase_order_number" (Example : ['queryPO','PO156897'])
 2. "queryPOIds", "" (Example : ['queryPOIds'])
+3. "queryAllPO", "" (Example : ['queryAllPO'])
 
 If there are any issues it's usually because the development environment is not setup properly. Make sure to follow all the setup instructions only, from https://github.com/hyperledger/fabric-sdk-node and the 'Prerequisites' from http://hyperledger-fabric.readthedocs.io/en/latest/dev-setup/devenv.html?highlight=development.
