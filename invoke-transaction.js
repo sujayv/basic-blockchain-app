@@ -30,7 +30,7 @@ var testUtil = require('./util.js');
 var args = testUtil.getArgs(parameters.invoke_transaction);
 logger.info(parameters.properties.chaincodeVersion);
 
-test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) => {
+test('\n\n***** End-to-end flow: invoke transaction *****', (t) => {
 	e2eUtils.invokeChaincode('org1', parameters.properties.chaincodeVersion, t, args)
 	.then((result) => {
 		if(result){

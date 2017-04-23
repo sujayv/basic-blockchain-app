@@ -644,7 +644,7 @@ function queryChaincode(org, version, t, args){
 			logger.info("Current height of block chain is: "+result.height);
 			chain.queryBlock(parseInt(result.height)-1).then((block) => {
 
-				logger.info(block);
+				//logger.info(block);
 				logger.info("Block Number: "+block.header.number.toString());
 				logger.info("Previous Block Hash: "+block.header.previous_hash.toString('hex'));
 				logger.info("Current Block Data Hash: "+block.header.data_hash.toString('hex'));
