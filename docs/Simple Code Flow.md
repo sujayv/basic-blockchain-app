@@ -24,3 +24,11 @@
 4. The status of the order retrieved is checked. If it is not delivered, then a background task is executed (simulation of an external api being called to perform a task)
 5. The background process performs it's tasks and calls invoke-updateStatus.js once it is done to change the status of the purchase order to 'Delivered'.
 6. A query is run again using query.js to show that the value has been changed.
+
+**Execution flow of register-User**:
+
+1. The username to be registered is read from parameters.json(Modify "registerUser")
+2. Call to method getRegistrar from util.js
+3. Utilizes admin, adminpw values to get enrollment certificates of admin to register a new user
+4. Calls fabric-ca methods register and enroll and sets the user context for the client.
+5. New user only has access to querying and not creating or deleting assets.
