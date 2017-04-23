@@ -1,10 +1,11 @@
 # basic-blockchain-app
 
 **Update**
-Works with hyperledger/fabric commit 118f82f04a8f3227480904ea6b7c3ed961c0d8c1.
-Works with hyperledger/fabric-ca commit 855036cc931b20c0019f9f67e4b7f8acb9ec868d.
+Works with hyperledger/fabric commit: 118f82f04a8f3227480904ea6b7c3ed961c0d8c1.
 
-Blockchain application developed on Hyperledger Fabric using the Fabric-Node-SDK. Simple modifications to the end to end example provided to exercise the entire functionality of SDK.
+Works with hyperledger/fabric-ca commit: 855036cc931b20c0019f9f67e4b7f8acb9ec868d.
+
+Blockchain application developed on Hyperledger Fabric(v1.0.0) using the Fabric-Node-SDK(v1.0.0-alpha). Simple modifications to the end to end example provided to exercise the entire functionality of SDK.
 
 Instructions to run:
 
@@ -40,5 +41,3 @@ Query Transaction parameters:
 2. "queryPOIds", "" (Example : ['queryPOIds'])
 
 If there are any issues it's usually because the development environment is not setup properly. Make sure to follow all the setup instructions only, from https://github.com/hyperledger/fabric-sdk-node and the 'Prerequisites' from http://hyperledger-fabric.readthedocs.io/en/latest/dev-setup/devenv.html?highlight=development.
-
-
