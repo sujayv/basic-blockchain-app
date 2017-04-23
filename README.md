@@ -58,3 +58,5 @@ Query Transaction parameters:
 3. "queryAllPO", "" (Example : ['queryAllPO'])
 
 If there are any issues it's usually because the development environment is not setup properly. Make sure to follow all the setup instructions only, from https://github.com/hyperledger/fabric-sdk-node and the 'Prerequisites' from http://hyperledger-fabric.readthedocs.io/en/latest/dev-setup/devenv.html?highlight=development.
+
+(If you update the chaincode and the node program does not refer to the new chaincode when you run the code, then it means that you have a leftover docker image. Run "docker images | grep "dev-peer" | awk '{print $1}' | xargs docker rmi" to delete all previous chaincode images)
