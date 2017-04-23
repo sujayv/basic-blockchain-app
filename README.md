@@ -14,15 +14,25 @@ Instructions to run:
 3. Go to fabric directory and run 'make docker' and then 'make couchdb'.
 4. Go to fabric-ca directory and run 'make docker'.
 5. Go to the directory you cloned this repository and run:
+
 	a. docker-compose up -d
+
 	b. export GOPATH=$PWD && npm install
+
 	c. node create-channel.js
+
 	d. node join-channel.js
+
 	e. node install-chaincode.js
+
 	f. node instantiate-chaincode.js
+
 	g. Go to parameters.json and modify the invoke_transaction parameters to any of the ones mentioned below.
+
 	h. node invoke-transaction.js
+
 	i. Go to parameters.json and modify the query-transaction parameters to any of the ones mentioned below.
+	
 	j. node query.js
 
 
