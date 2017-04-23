@@ -28,14 +28,15 @@ var test = _test(tape);
 
 var e2eUtils = require('./e2eUtils.js');
 var testUtil = require('./util.js');
+var parameters = require('./parameters.json');
 
 //testUtil.setupChaincodeDeploy();
 
 test('\n\n***** End-to-end flow: chaincode install *****\n\n', (t) => {
-	e2eUtils.installChaincode('org1', testUtil.CHAINCODE_PATH, 'v3', t)
+	e2eUtils.installChaincode('org1', testUtil.CHAINCODE_PATH, parameters.properties.chaincodeVersion, t)
 	.then(() => {
 		t.pass('Successfully installed chaincode in peers of organization "org1"');
-		return e2eUtils.installChaincode('org2', testUtil.CHAINCODE_PATH, 'v3', t);
+		return e2eUtils.installChaincode('org2', testUtil.CHAINCODE_PATH, parameters.properties.chaincodeVersion, t);
 	}, (err) => {
 		t.fail('Failed to install chaincode in peers of organization "org1". ' + err.stack ? err.stack : err);
 		t.end();

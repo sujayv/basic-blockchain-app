@@ -28,9 +28,10 @@ var test = _test(tape);
 
 var e2eUtils = require('./e2eUtils.js');
 var testUtil = require('./util.js');
+var parameters = require('./parameters.json');
 
 test('\n\n***** End-to-end flow: instantiate chaincode *****', (t) => {
-	e2eUtils.instantiateChaincode('org1', testUtil.CHAINCODE_PATH, 'v3', false, t)
+	e2eUtils.instantiateChaincode('org1', testUtil.CHAINCODE_PATH, parameters.properties.chaincodeVersion, false, t)
 	.then((result) => {
 		if(result){
 			t.pass('Successfully instantiated chaincode on the channel');

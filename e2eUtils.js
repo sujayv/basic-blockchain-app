@@ -599,7 +599,7 @@ function invokeChaincode(org, version, t, args){
 
 module.exports.invokeChaincode = invokeChaincode;
 
-function queryChaincode(org, version, value, t, args){
+function queryChaincode(org, version, t, args){
 	// this is a transaction, will just use org's identity to
 	// submit the request. intentionally we are using a different org
 	// than the one that submitted the "move" transaction, although either org
@@ -708,7 +708,7 @@ module.exports.queryChaincode = queryChaincode;
 
 
 
-function queryChaincodeAndExecuteTask(org, version, value, t){
+function queryChaincodeAndExecuteTask(org, version, t){
 	// this is a transaction, will just use org's identity to
 	// submit the request. intentionally we are using a different org
 	// than the one that submitted the "move" transaction, although either org

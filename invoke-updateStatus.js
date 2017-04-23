@@ -23,8 +23,13 @@ var _test = require('tape-promise');
 var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
 
+var parameters = require('./parameters.json');
+var testUtil = require('./util.js');
+var args = testUtil.getArgs(parameters.query_and_execute.updateStatus);
+
+
 test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) => {
-	e2eUtils.invokeChaincode('org2', 'v3', t, ['updateStatus','PO156897', 'Delivered'])
+	e2eUtils.invokeChaincode('org2', parameters.properties.chaincodeVersion, t, args)
 	.then((result) => {
 		if(result){
 			t.pass('Successfully invoke transaction chaincode on channel');

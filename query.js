@@ -22,9 +22,13 @@ var tape = require('tape');
 var _test = require('tape-promise');
 var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
+var parameters = require('./parameters.json');
+var testUtil = require('./util.js');
+
+var args = testUtil.getArgs(parameters.query_transaction);
 
 test('\n\n***** End-to-end flow: query chaincode *****', (t) => {
-	e2eUtils.queryChaincode('org1', 'v3', '300', t, ['queryPO','PO156897'])
+	e2eUtils.queryChaincode('org1', parameters.properties.chaincodeVersion, t, args)
 	.then((result) => {
 		if(result){
 			t.pass('Successfully query chaincode on the channel');

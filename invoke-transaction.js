@@ -17,14 +17,21 @@
 // This is an end-to-end test that focuses on exercising all parts of the fabric APIs
 // in a happy-path scenario
 'use strict';
-
+var utils = require('fabric-client/lib/utils.js');
+//utils.setConfigSetting('hfc-logging', '{"debug":"console"}');
+var logger = utils.getLogger('E2E testing');
 var tape = require('tape');
 var _test = require('tape-promise');
 var test = _test(tape);
 var e2eUtils = require('./e2eUtils.js');
+var parameters = require('./parameters.json');
+var testUtil = require('./util.js');
+
+var args = testUtil.getArgs(parameters.invoke_transaction);
+logger.info(parameters.properties.chaincodeVersion);
 
 test('\n\n***** End-to-end flow: invoke transaction to move money *****', (t) => {
-	e2eUtils.invokeChaincode('org1', 'v3', t, ['create','PO156900'])
+	e2eUtils.invokeChaincode('org1', parameters.properties.chaincodeVersion, t, args)
 	.then((result) => {
 		if(result){
 			t.pass('Successfully invoke transaction chaincode on channel');

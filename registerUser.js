@@ -14,6 +14,7 @@ var fs = require('fs');
 var path = require('path');
 
 var testUtil = require('./util.js');
+var parameters = require('./parameters.json');
 
 var the_user = null;
 
@@ -49,7 +50,7 @@ test('\n\n***** End-to-end flow: create channel *****\n\n', function(t) {
 		path: testUtil.storePathForOrg(org)
 	}).then((store) => {
 		client.setStateStore(store);
-		return testUtil.getRegistrar('assasinx93',client, t,false, 'org1');
+		return testUtil.getRegistrar(parameters.registerUser,client, t,false, 'org1');
 	})
 	.then((user) => {
 		t.pass('Successfully enrolled user \'sujay\'');

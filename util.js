@@ -32,13 +32,13 @@ var idModule = require('fabric-client/lib/msp/identity.js');
 var SigningIdentity = idModule.SigningIdentity;
 var Signer = idModule.Signer;
 
-module.exports.CHAINCODE_PATH = 'github.com/example_cc';
-module.exports.CHAINCODE_UPGRADE_PATH = 'github.com/example_cc1';
-module.exports.CHAINCODE_MARBLES_PATH = 'github.com/marbles_cc';
+var parameters = require('./parameters.json');
+
+module.exports.CHAINCODE_PATH = parameters.properties.chaincodePath;
 module.exports.END2END = {
-	channel: 'mychannel',
-	chaincodeId: 'purchaseorder',
-	chaincodeVersion: 'v3'
+	channel: parameters.properties.channelName,
+	chaincodeId: parameters.properties.chaincodeId,
+	chaincodeVersion: parameters.properties.chaincodeVersion
 };
 
 // directory for file based KeyValueStore
@@ -276,4 +276,12 @@ module.exports.getSubmitter = function(client, test, loadFromConfig, org) {
 	}
 
 	return getSubmitter('admin', 'adminpw', client, test, fromConfig, userOrg);
+};
+
+module.exports.getArgs = function(chaincodeArgs) {
+	var args = [];
+	for (var i = 0; i < chaincodeArgs.length; i++) {
+		args.push(chaincodeArgs[i]);
+	}
+	return args;
 };
