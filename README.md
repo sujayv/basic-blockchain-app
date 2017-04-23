@@ -19,9 +19,9 @@ Instructions to run:
 	d. node join-channel.js
 	e. node install-chaincode.js
 	f. node instantiate-chaincode.js
-	g. Go to e2eutils.js and modify the invokeTransaction parameters to any of the ones mentioned below.
+	g. Go to parameters.json and modify the invoke_transaction parameters to any of the ones mentioned below.
 	h. node invoke-transaction.js
-	i. Go to e2eutils.js and modify the queryTransaction parameters to any of the ones mentioned below.
+	i. Go to parameters.json and modify the query-transaction parameters to any of the ones mentioned below.
 	j. node query.js
 
 
