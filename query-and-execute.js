@@ -25,7 +25,8 @@ var e2eUtils = require('./e2eUtils.js');
 var parameters = require('./parameters.json');
 var testUtil = require('./util.js');
 
-var args = testUtil.getArgs(parameters.query_and_execute);
+var args = testUtil.getArgs(parameters.query_and_execute.args);
+console.log(args);
 
 test('\n\n***** End-to-end flow: query chaincode *****', (t) => {
 	e2eUtils.queryChaincodeAndExecuteTask('org1', parameters.properties.chaincodeVersion, t, args)

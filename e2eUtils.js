@@ -708,7 +708,7 @@ module.exports.queryChaincode = queryChaincode;
 
 
 
-function queryChaincodeAndExecuteTask(org, version, t){
+function queryChaincodeAndExecuteTask(org, version, t, args){
 	// this is a transaction, will just use org's identity to
 	// submit the request. intentionally we are using a different org
 	// than the one that submitted the "move" transaction, although either org
@@ -750,9 +750,30 @@ function queryChaincodeAndExecuteTask(org, version, t){
 
 		chain.queryInfo().then((result) => {
 
-			logger.info(result.height);
+			logger.info("Current height of block chain is: "+result.height);
+			chain.queryBlock(parseInt(result.height)-1).then((block) => {
+
+				//logger.info(block);
+				logger.info("Block Number: "+block.header.number.toString());
+				logger.info("Previous Block Hash: "+block.header.previous_hash.toString('hex'));
+				logger.info("Current Block Data Hash: "+block.header.data_hash.toString('hex'));
+				logger.info("Block Created by: "+block.data.data[0].payload.data.actions[0].header.creator.Mspid.toString());
+				logger.info("Creator's sign cert: "+block.data.data[0].payload.data.actions[0].header.creator.IdBytes.toString());
+				//logger.info("Response: "+block.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.response);
+			});
 
 		});
+
+		/*chain.queryTransaction('f159efa1fb9444030e8a46581c1ad25efad50d46efb0e356d38cf654062123c5').then((result) => {
+
+			logger.info(result.transactionEnvelope.payload.toString());
+			var StringDecoder = require('string_decoder').StringDecoder;
+			var decoder = new StringDecoder('utf8');
+			var textChunk = decoder.write(result.transactionEnvelope.payload);
+			logger.info(textChunk);
+
+		});*/
+
 
 		// send query
 		var request = {
@@ -762,7 +783,7 @@ function queryChaincodeAndExecuteTask(org, version, t){
 			txId: tx_id,
 			nonce: nonce,
 			fcn: 'invoke',
-			args: ['queryPO','PO156897']
+			args: args
 		};
 		return chain.queryByChaincode(request);
 	},
