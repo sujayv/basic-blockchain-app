@@ -128,7 +128,7 @@ function getRegistrar(username, client, t, loadFromConfig, userOrg) {
 
 	var signingIdentity = new SigningIdentity('testSigningIdentity', eResult.certificate, pubKey, msp, new Signer(msp.cryptoSuite, eResult.key));
 	t.comment('Registering '+username);
-	return cop._fabricCAClient.register(username, 'peer', userOrg, 1, [], signingIdentity);
+	return cop._fabricCAClient.register(username, 'client', userOrg, 1, [], signingIdentity);
 },(err) => {
 	t.fail('Failed to import the public key from the enrollment certificate. ' + err.stack ? err.stack : err);
 	t.end();
@@ -187,7 +187,7 @@ function getSubmitter(username, password, client, t, loadFromConfig, userOrg) {
 					enrollmentID: username,
 					enrollmentSecret: password
 				}).then((enrollment) => {
-					t.pass('Successfully enrolled user \'' + username + '\'');
+					t.pass('Successfully enrolled user (util.js) \'' + username + '\'');
 
 					member = new User(username);
 					return member.setEnrollment(enrollment.key, enrollment.certificate, ORGS[userOrg].mspid);

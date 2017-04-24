@@ -1,5 +1,5 @@
 {
-  "invoke_transaction" : ["deletePO","PC5134"],
+  "invoke_transaction" : ["createPO","PO54167"],
   "query_transaction" : ["queryAllPO"],
   "query_and_execute" : {
                         "args": ["queryPO","PO156879"],
@@ -8,8 +8,8 @@
   "properties" : {
                   "channelName" : "mychannel",
                   "chaincodeId" : "purchaseorder",
-                  "chaincodeVersion" : "v4",
+                  "chaincodeVersion" : "v0",
                   "chaincodePath" : "github.com/purchase_order"
                 },
-  "registerUser" : "sujay"
+  "registerUser" : "mcavoy"
 }

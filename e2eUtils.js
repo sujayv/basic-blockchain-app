@@ -688,8 +688,8 @@ function queryChaincode(org, version, t, args){
 				t.equal(response_payloads[i].toString('utf8'),value,'checking query results are correct that user b has '+ value + ' now after the move');
 
 			}*/
-			t.pass('The response is '+ response_payloads[0].toString('utf8') + '\n');
-			logger.info("The query response is "+ response_payloads[0].toString('utf8') + '\n');
+			//t.pass('The response is '+ response_payloads[0].toString('utf8') + '\n');
+			logger.info("The query response is \n"+ response_payloads[0].toString('utf8') + '\n');
 			return true;
 		} else {
 			t.fail('response_payloads is null');

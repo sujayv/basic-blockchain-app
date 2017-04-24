@@ -467,9 +467,11 @@ func (t *SimpleChaincode) queryAllPurchaseOrders(stub shim.ChaincodeStubInterfac
 		if err != nil {
 			return shim.Error("Unable to marshal the unmarshaled purchase order")
 		}
+		temp += "*************************************\n"
 		temp += string(po_details)
 		temp += "\n"
 	}
+	temp += "*************************************\n"
 	return shim.Success([]byte(temp))
 }
 
