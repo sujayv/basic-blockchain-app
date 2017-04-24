@@ -40,7 +40,7 @@ Instructions to run:
 1. node initialize-default.js
 2. Now querying with queryPOIds will return a list of PoIds that were just added.
 
-
+**Please refer to chaincode to see what each function does**
 
 Invoke Transaction parameters:
 1. "createPO", "purchase_order_number" (Example : ['createPO','PO156897'])
@@ -51,6 +51,8 @@ Invoke Transaction parameters:
 6. "updateSupplier", "purchase_order_number", "supplier_name" (Example : ['updateStatus','PO156897','Company ABC'])
 7. "updatePartName", "purchase_order_number", "part_name" (Example : ['updateStatus','PO156897','Razor Gaming Keyboard'])
 8. "createCompletePO", "purchase_order_number", "quantity", "part_name", "customer", "supplier", "status" (Example : ['createCompletePO','PO156897','10','Razor Gaming Keyboard','Company ABC','Company XYZ','Order Created'])
+9. "addProductPrice", "productname", "price" (Example : ['addProductPrice','B543-Router','$35'])
+10. "updatePrice", "purchase_order_number" (Example : ['updatePrice','PO156897'])
 
 Query Transaction parameters:
 1. "queryPO", "purchase_order_number" (Example : ['queryPO','PO156897'])
