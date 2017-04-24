@@ -47,6 +47,8 @@ var q = async.queue(function(i, callback) {
   args.push(Supplier);
   var Status = orders.test_data[i].Status;
   args.push(Status);
+  var Price = orders.test_data[i].Price;
+  args.push(Price);
   logger.info("the args are "+args);
 
   test('\n\n***** End-to-end flow: invoke transaction *****', (t) => {

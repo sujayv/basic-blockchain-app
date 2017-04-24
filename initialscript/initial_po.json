@@ -5,7 +5,8 @@
 			"Part_Name" : "B543-Router",
 			"Customer" : "Cisco",
 			"Supplier" : "XYZ",
-			"Status" : "Order Sent"
+			"Status" : "Order Sent",
+			"Price" : ""
 			},
 			{
 			"PoId" : "PC4128",
@@ -13,7 +14,8 @@
 			"Part_Name" : "W152-Wireless Router",
 			"Customer" : "Dlink",
 			"Supplier" : "Cisco",
-			"Status" : "Shipped to Destination"
+			"Status" : "Shipped to Destination",
+			"Price" : ""
 			},
 			{
 			"PoId" : "LM9807",
@@ -21,7 +23,8 @@
 			"Part_Name" : "C901-Modem",
 			"Customer" : "Gigabyte",
 			"Supplier" : "Cisco",
-			"Status" : "Created Purchase Order"
+			"Status" : "Created Purchase Order",
+			"Price" : ""
 			},
 			{
 			"PoId" : "LP7425",
@@ -29,7 +32,8 @@
 			"Part_Name" : "GP60-Microprocessor",
 			"Customer" : "Cisco",
 			"Supplier" : "Texas Instruments",
-			"Status" : "Manufacturing in Progress"
+			"Status" : "Manufacturing in Progress",
+			"Price" : ""
 			},
 			{
 			"PoId" : "YU6345",
@@ -37,6 +41,7 @@
 			"Part_Name" : "W154-Dual Band Wireless Router",
 			"Customer" : "Cisco",
 			"Supplier" : "ABC",
-			"Status" : "Shipment Received"
+			"Status" : "Shipment Received",
+			"Price" : ""
 			}]
 }

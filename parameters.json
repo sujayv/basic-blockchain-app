@@ -1,6 +1,6 @@
 {
-  "invoke_transaction" : ["createPO","PO54167"],
-  "query_transaction" : ["queryAllPO"],
+  "invoke_transaction" : ["updatePrice","PC5134"],
+  "query_transaction" : ["queryPO","PC5134"],
   "query_and_execute" : {
                         "args": ["queryPO","PO156879"],
                         "updateStatus": ["updateStatus","PO156879","Delivered"]
@@ -8,7 +8,7 @@
   "properties" : {
                   "channelName" : "mychannel",
                   "chaincodeId" : "purchaseorder",
-                  "chaincodeVersion" : "v0",
+                  "chaincodeVersion" : "v1",
                   "chaincodePath" : "github.com/purchase_order"
                 },
   "registerUser" : "mcavoy"
