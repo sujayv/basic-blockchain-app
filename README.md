@@ -43,21 +43,21 @@ Instructions to run:
 **Please refer to chaincode to see what each function does**
 
 Invoke Transaction parameters:
-1. "createPO", "purchase_order_number" (Example : ['createPO','PO156897'])
-2. "deletePO", "purchase_order_number" (Example : ['delete','PO156897'])
-3. "updateStatus", "purchase_order_number", "status_update" (Example : ['updateStatus','PO156897','Delivered'])
-4. "updateQuantity", "purchase_order_number", "new_quantity" (Example : ['updateQuantity','PO156897','150'])
-5. "updateCustomer", "purchase_order_number", "customer_name" (Example : ['updateStatus','PO156897','Company XYZ'])
-6. "updateSupplier", "purchase_order_number", "supplier_name" (Example : ['updateStatus','PO156897','Company ABC'])
-7. "updatePartName", "purchase_order_number", "part_name" (Example : ['updateStatus','PO156897','Razor Gaming Keyboard'])
-8. "createCompletePO", "purchase_order_number", "quantity", "part_name", "customer", "supplier", "status" (Example : ['createCompletePO','PO156897','10','Razor Gaming Keyboard','Company ABC','Company XYZ','Order Created'])
-9. "addProductPrice", "productname", "price" (Example : ['addProductPrice','B543-Router','$35'])
-10. "updatePrice", "purchase_order_number" (Example : ['updatePrice','PO156897'])
+1. "createPO", "purchase_order_number" (Example : ["createPO","PO156897"])
+2. "deletePO", "purchase_order_number" (Example : ["delete","PO156897"])
+3. "updateStatus", "purchase_order_number", "status_update" (Example : ["updateStatus","PO156897","Delivered"])
+4. "updateQuantity", "purchase_order_number", "new_quantity" (Example : ["updateQuantity","PO156897","150"])
+5. "updateCustomer", "purchase_order_number", "customer_name" (Example : ["updateStatus","PO156897","Company XYZ"])
+6. "updateSupplier", "purchase_order_number", "supplier_name" (Example : ["updateStatus","PO156897","Company ABC"])
+7. "updatePartName", "purchase_order_number", "part_name" (Example : ["updateStatus","PO156897","Razor Gaming Keyboard"])
+8. "createCompletePO", "purchase_order_number", "quantity", "part_name", "customer", "supplier", "status" (Example : ["createCompletePO","PO156897","10","Razor Gaming Keyboard","Company ABC","Company XYZ","Order Created"])
+9. "addProductPrice", "productname", "price" (Example : ["addProductPrice","B543-Router","$35"])
+10. "updatePrice", "purchase_order_number" (Example : ["updatePrice","PO156897"])
 
 Query Transaction parameters:
-1. "queryPO", "purchase_order_number" (Example : ['queryPO','PO156897'])
-2. "queryPOIds", "" (Example : ['queryPOIds'])
-3. "queryAllPO", "" (Example : ['queryAllPO'])
+1. "queryPO", "purchase_order_number" (Example : ["queryPO","PO156897"])
+2. "queryPOIds", "" (Example : ["queryPOIds"])
+3. "queryAllPO", "" (Example : ["queryAllPO"])
 
 If there are any issues it's usually because the development environment is not setup properly. Make sure to follow all the setup instructions only, from https://github.com/hyperledger/fabric-sdk-node and the 'Prerequisites' from http://hyperledger-fabric.readthedocs.io/en/latest/dev-setup/devenv.html?highlight=development.
 
