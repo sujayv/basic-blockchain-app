@@ -5,6 +5,5 @@
 4. docker-compose up -d (To start containers again)
 
 **b. Commands to restart docker containers and run where you previously left off**
-1. Run (a)
-2. docker-compose kill (Run while exiting)
-3. docker-compose up -d (Run the next time you want to start and then run node programs directly)
+1. docker-compose kill (Run while exiting)
+2. docker-compose up -d (Run the next time you want to start and then run node programs directly)
